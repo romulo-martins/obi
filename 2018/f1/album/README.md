@@ -24,6 +24,11 @@ Seu programa deve produzir uma única linha contendo um inteiro, o número de fi
 
 ## Exemplos
 
+| Entrada         | Saida |
+|-----------------|-------|
+| 10 3 5 8 3      | 7     |
+| 5 6 3 3 2 3 3 3 | 3     |
+| 3 4 2 1 3 3     | 0     |
 
 
 https://olimpiada.ic.unicamp.br/pratique/pj/2018/f1/album/
