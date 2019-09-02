@@ -11,7 +11,7 @@ def calcular_figurinhas(n, m, figs):
     uniq_figs = remover_repetidas(figs)
     return (n - len(uniq_figs))
 
-def execute():
+def main():
     n = int(input())
     m = int(input())
     figs = []
@@ -21,5 +21,6 @@ def execute():
     resp = calcular_figurinhas(n, m, figs)
     print(resp)
 
-# execute()
+if __name__ == '__main__':
+    main()
     

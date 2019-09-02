@@ -10,8 +10,9 @@ def calcular_pontos(d):
     else: 
         return 0
 
-def execute():
+def main():
     d = int(input())
     print(calcular_pontos(d))
 
-# execute()
+if __name__ == '__main__':
+    main()
