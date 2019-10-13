@@ -18,8 +18,7 @@ def main():
     for i in range(0, m):
         fig = int(input())
         figs.append(fig)
-    resp = calcular_figurinhas(n, m, figs)
-    print(resp)
+    print(calcular_figurinhas(n, m, figs))
 
 if __name__ == '__main__':
     main()
