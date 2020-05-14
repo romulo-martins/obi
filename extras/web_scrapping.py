@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 """
     Carrega todos os enunciados da página oficial das olimpiadas e os 
     converte para markdown
@@ -6,15 +8,25 @@
 import requests
 from bs4 import BeautifulSoup
 import tomd
+import os
 
-def _extract_filename(url):
+BASE_URL = 'https://olimpiada.ic.unicamp.br'
+
+def _remove_duplicates(array, param):
+    while param in array: 
+        array.remove(param)
+    return array
+
+def _extract_name(url):
     elems = url.split('/')
-    while '' in elems: 
-        elems.remove('')
+    elems = _remove_duplicates(elems, '')
     return elems.pop()
 
 def _save_file(content, filename):
-    file = open(f'{filename}.md', 'w')
+    dirname = 'data'
+    if not os.path.exists(dirname):
+        os.mkdir(dirname)
+    file = open(f'{dirname}/{filename}.md', 'w')
     file.write(content)
     file.close()
 
@@ -34,13 +46,21 @@ def _extract_statement(html_content):
 
 def extract_statement(url):
     req = requests.get(url)
-    filename = _extract_filename(url)
+    name = _extract_name(url)
     if req.status_code == 200:
         statement = _extract_statement(req.content)
         markdown = tomd.convert(str(statement))
-        _save_file(markdown, filename)
-        print('Successful download!')
+        _save_file(markdown, name)
+        print(f'Successful download of {name}!')
     else:
-        print('We cannot get the request!')
+        print(f'We cannot get the request of {name}!')
     
-extract_statement('https://olimpiada.ic.unicamp.br/pratique/pj/2019/f1/domino/')
+def extract_main_links(url):
+    req = requests.get(url)
+    soup = BeautifulSoup(req.content, 'html.parser')
+    links = soup.select('a[href*="/pratique/p"]')
+    links = [l.get('href') for l in links]
+    for link in links:
+        extract_statement(f'{BASE_URL}{link}')
+
+extract_main_links('https://olimpiada.ic.unicamp.br/pratique/pj/')
